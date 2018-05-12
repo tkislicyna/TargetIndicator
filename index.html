@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Target Indicator Demo</title>
+
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>>
+</head>
+<body>
+    <div class="parent">
+        <div class="block">
+            <div class="panel-heading">
+                Target Indicator Demo
+            </div>
+            <div class="panel-body">
+                <div class="panel-info">
+                    <div class="row outer">
+                        <div class="label inner">
+                            Reached:
+                        </div>
+                        <div class="panel-progress-info inner">
+                            <div class="panel-progressbar">
+                                <div id="progressbar"></div>
+                            </div>
+                            <div class="panel-cursor" id="cursor">
+                                <img src="images/cursor.png"/>
+                                <div class="panel-balance">
+                                    $<span  id="balance" value="0">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-target inner" id="targetPanel">Target
+                            <hr/>
+                            <div class="target-value" id="targetValue"></div>
+                        </div>
+                    </div>
+
+                    <div id="message" class="message" style="display: none;">
+                        <img src="images/info.png"/>
+                        You need $<span id="lack"></span> more to reach your target
+                    </div>
+                    <div id="errorcontainer" style="display: none;"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

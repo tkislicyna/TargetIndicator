@@ -1,0 +1,25 @@
+{
+  "name": "TargetIndicator",
+  "authors": [
+    "Toma Kozlova <tkislicyna@gmail.com>"
+  ],
+  "description": "The application shows the target indicator",
+  "main": "index.html",
+  "keywords": [
+    "target",
+    "indicator",
+    "progressbar"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1"
+  }
+}
