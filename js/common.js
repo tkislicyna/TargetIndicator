@@ -1,6 +1,7 @@
 const TARGET_VALUE_MAX = 15;
 const OFFSET = 0.2;
 const TIME_OFFSET = 2000;
+var curBalance = 0;
 
 $(document).ready(function () {
     $("#targetValue").html("$" + TARGET_VALUE_MAX);
@@ -22,38 +23,35 @@ $(document).ready(function () {
             showBalance(balanceUsd);
         },
         error: function (x, ajaxOptions, exception) {
-            showError(x, ajaxOptions, exception)
+            showError(x, ajaxOptions, exception);
         }
     });
 });
 
 
 function showBalance(balanceUsd) {
+    curBalance = balanceUsd;
+    if(curBalance >= TARGET_VALUE_MAX) {
+        achieveTarget();
+    }
+
     var lack = round(TARGET_VALUE_MAX - balanceUsd, 2);
     $("#lack").html(lack);
+    $("#message").show();
 
-    const pOffset = OFFSET * 100 / TARGET_VALUE_MAX;
-    const pBalance = balanceUsd * 100 / TARGET_VALUE_MAX;
+    const pBalance = curBalance * 100 / TARGET_VALUE_MAX;
     $("#progressbar").progressbar({value: pBalance});
 
-    var width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
-    var curBalance = balanceUsd;
     $("#balance").attr("value", curBalance);
     $("#balance").html(round(curBalance, 2));
     updateCursor(pBalance, 0);
 
     var timer = setInterval(function () {
-
-        width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
-
-        var pVal = $("#progressbar").progressbar("option", "value");
-        var pCnt = !isNaN(pVal) ? (pVal + pOffset) : pOffset;
-        if (pCnt >= 100) {
+        curBalance += OFFSET;
+        var pCnt = curBalance * 100 / TARGET_VALUE_MAX;
+        if (round(curBalance, 2) >= TARGET_VALUE_MAX) {
             clearInterval(timer);
-            $("#targetPanel").addClass("panel-target-success");
-            $('#cursor').hide();
-            $("#message").hide();
-            $('#progressbar').progressbar({value: 100});
+            achieveTarget();
         } else {
             $("#progressbar").progressbar({value: pCnt});
             updateCursor(pCnt, OFFSET);
@@ -61,9 +59,15 @@ function showBalance(balanceUsd) {
     }, TIME_OFFSET);
 }
 
+function achieveTarget() {
+    $("#targetPanel").addClass("panel-target-success");
+    $('#progressbar').progressbar({value: 100});
+    $('#cursor').hide();
+    $("#message").hide();
+}
+
 function updateCursor(pValue, offset) {
     var width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
-    var curBalance = parseFloat($("#balance").attr("value")) + offset;
     $("#balance").attr("value", curBalance);
     $("#balance").html(round(curBalance, 2));
     var offsetCursor = pValue * width / 100;
