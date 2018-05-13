@@ -32,6 +32,7 @@ function showBalance(balanceUsd) {
     curBalance = balanceUsd;
     if(curBalance >= TARGET_VALUE_MAX) {
         achieveTarget();
+        return;
     }
 
     var lack = round(TARGET_VALUE_MAX - balanceUsd, 2);
