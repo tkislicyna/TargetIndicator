@@ -7,13 +7,12 @@ $(document).ready(function () {
     $("#targetValue").html("$" + TARGET_VALUE_MAX);
     $("#progressbar").progressbar({value: 0}, {"classes.ui-progressbar": "highlight"});
 
-    var balanceUsd = 0;
     $.ajax({
         type: "post",
         dataType: "json",
         url: "http://alex.devel.softservice.org/testapi/",
         success: function (data) {
-            balanceUsd = parseFloat(data["balance_usd"]);
+            var balanceUsd = parseFloat(data["balance_usd"]);
             if (isNaN(balanceUsd)) {
                 showError("", "", "json_data_error")
                 return;
