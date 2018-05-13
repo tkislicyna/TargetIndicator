@@ -30,34 +30,44 @@ $(document).ready(function () {
 
 function showBalance(balanceUsd) {
     var lack = round(TARGET_VALUE_MAX - balanceUsd, 2);
+    $("#lack").html(lack);
 
     const pOffset = OFFSET * 100 / TARGET_VALUE_MAX;
-    const pMax = Math.min(balanceUsd * 100 / TARGET_VALUE_MAX, 100);
+    const pBalance = balanceUsd * 100 / TARGET_VALUE_MAX;
+    $("#progressbar").progressbar({value: pBalance});
+
+    var width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
+    var curBalance = balanceUsd;
+    $("#balance").attr("value", curBalance);
+    $("#balance").html(round(curBalance, 2));
+    updateCursor(pBalance, 0);
 
     var timer = setInterval(function () {
 
-        var width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
+        width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
 
         var pVal = $("#progressbar").progressbar("option", "value");
         var pCnt = !isNaN(pVal) ? (pVal + pOffset) : pOffset;
-        if (pCnt > 100) {
+        if (pCnt >= 100) {
             clearInterval(timer);
             $("#targetPanel").addClass("panel-target-success");
             $('#cursor').hide();
+            $("#message").hide();
             $('#progressbar').progressbar({value: 100});
-        } else if (pCnt > pMax) {
-            clearInterval(timer);
-            $("#lack").html(lack);
-            $("#message").show();
         } else {
             $("#progressbar").progressbar({value: pCnt});
-            var curBalance = parseFloat($("#balance").attr("value")) + OFFSET;
-            $("#balance").attr("value", curBalance);
-            $("#balance").html(round(curBalance, 2));
-            var offsetCursor = pCnt * width / 100;
-            $('#cursor').css("padding-left", offsetCursor + "px");
+            updateCursor(pCnt, OFFSET);
         }
     }, TIME_OFFSET);
+}
+
+function updateCursor(pValue, offset) {
+    var width = $('#progressbar').css('width').replace(/[^-\d\.]/g, '');
+    var curBalance = parseFloat($("#balance").attr("value")) + offset;
+    $("#balance").attr("value", curBalance);
+    $("#balance").html(round(curBalance, 2));
+    var offsetCursor = pValue * width / 100;
+    $('#cursor').css("padding-left", offsetCursor + "px");
 }
 
 // copy from stackoverflow.com

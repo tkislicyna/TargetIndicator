@@ -17,13 +17,6 @@
     margin: -70px 0 0 -150px;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border: none;
-}
 
 .panel-heading {
     background-color: dimgrey;
