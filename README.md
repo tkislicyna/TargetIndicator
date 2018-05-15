@@ -9,6 +9,8 @@ JQuery, Ajax, Css, Bower
 
 Images
 1. Start view
+
 ![alt text](images/target1.png)
+
 2. Target is reached
 ![alt text](images/success-target.png)
